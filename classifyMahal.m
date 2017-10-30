@@ -1,10 +1,11 @@
 function new_data = classifyMahal(data, wells, well_names)
 %CLASSIFYMAHAL computes Mahalanobis distance and classify to facies.
 %
-%   CLASSIFYMAHAL(data, wells, well_names) uses the previously computed
-%   AVO reflectivity curves to estimate two AVO attributes: zero-offset
-%   R_pp (intercept) and gradient. These attributes can be used for facies
-%   classification later.
+%   CLASSIFYMAHAL(data, wells, well_names) compares the input data cluster
+%   with the attribute clusters corresponding to all facies, calculates the
+%   Mahalanobis distance between every data points and each mean center of
+%   facies clusters. After that, each data points can be classified based
+%   on the minimum-Mahalanobis-distance criteria.
 %
 %   new_data = CLASSIFYMAHAL(...) outputs the "new_data" cell containing
 %   the calculated Mahalanobis distances.

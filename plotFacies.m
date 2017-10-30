@@ -1,11 +1,11 @@
 function plotFacies(data, well_names, type)
 %PLOTFACIES plots the facies classification results in time slice.
 %
-%   PLOTFACIES(data, well_names, [type])
-%   given well log data to the multivariate Gaussian model and plot out the
-%   probability density function (PDF); or, when flag DRAW is set to be
-%   true, draws Monte-Carlo samplings according to the previously computed
-%   distribution.
+%   PLOTFACIES(data, well_names, [type]) visualizes the facies classification
+%   from the function "classifyMahal". The individual and grouped facies are
+%   plotted out in a time slice.
+%   If input with argument 'input', then instead of classification results,
+%   the inputs (intercept and gradient) will be displayed.
 %
 %   See also CLASSIFYMAHAL.
 %
