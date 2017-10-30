@@ -1,13 +1,16 @@
 function new_wells = plotMC(wells, ranges, type, well_names, draw, ndraws)
 %PLOTMC plots the Monte Carlo fitting/sampling of given well log data.
+%
 %   PLOTMC(wells, ranges, type, well_names, [draw], [ndraws]) fits the
 %   given well log data to the multivariate Gaussian model and plot out the
 %   probability density function (PDF); or, when flag DRAW is set to be
 %   true, draws Monte-Carlo samplings according to the previously computed
 %   distribution.
 %
-%   new_wells = PLOTMC(...) outputs the "wells" cell containing the
+%   new_wells = PLOTMC(...) outputs the "new_wells" cell containing the
 %   distribution models.
+%
+%   See also PLOTAVO, PLOTROG.
 %
 %Written by Yunzhi Shi (Oct, 2017).
 
@@ -78,7 +81,7 @@ for i = 1:wellNum
         ylabel('Probability');
     end
     grid on;
-    title(['Facies', well_names{i}]);
-
-    new_wells = wells;
+    title(['Facies ', well_names{i}]);
 end
+
+new_wells = wells;
