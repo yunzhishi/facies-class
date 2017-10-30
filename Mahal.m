@@ -16,7 +16,7 @@ pairName = {'IIa', 'IIb', 'IIc', 'IIa-Oil', 'IIb-Oil', 'IIc-Oil'};
 rng(2017);  % Lock up random seed
 top = 8;  % Use FaciesIV as top layer
 ndraws = 100;  % Number of simulations
-approx = 3;  % Choice of Zoeppritz Eqns or approximation
+approx = 1;  % Choice of Zoeppritz Eqns or approximation
 ang = linspace(0, 30, 30);  % Angle Range
 
 %%%%%% Specify minimum and maximum values (ranges) for Vp, Vs, Rhob, Ip, and Vp/Vs

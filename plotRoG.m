@@ -15,7 +15,7 @@ function new_wells = plotRoG(wells, well_names, ang, combine)
 
 set(gcf, 'Position', [100,100,600,500]);
 xlabel_preset = {'Intercept'};
-ylabel_preset = {'50x Gradient'};
+ylabel_preset = {'Gradient'};
 wellNum = length(wells);
 plotRGB = jet(wellNum);  % RGB values
 

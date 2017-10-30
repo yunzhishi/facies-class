@@ -15,7 +15,7 @@ function new_data = classifyMahal(data, wells, well_names)
 
 set(gcf, 'Position', [100,100,800,300]);
 xlabel_preset = {'Intercept'};
-ylabel_preset = {'50x Gradient'};
+ylabel_preset = {'Gradient'};
 ndata = length(data.Int(:));
 nfacies = length(wells);
 plotRGB = jet(nfacies);  % RGB values
