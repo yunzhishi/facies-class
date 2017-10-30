@@ -11,7 +11,7 @@ function plotFacies(data, well_names, type)
 %
 %Written by Yunzhi Shi (Oct, 2017).
 
-set(gcf, 'Position', [100,100,350,500]);
+set(gcf, 'Position', [100,100,350,450]);
 xlabel_preset = {'Crossline'};
 ylabel_preset = {'Inline'};
 title_preset = {{'Intercept', 'Gradient'}, ...

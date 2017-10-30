@@ -3,13 +3,14 @@ function new_wells = plotAVO(wells, well_names, ang, approx, top)
 %
 %   PLOTAVO(wells, well_names, ang, approx, top) uses the previously computed
 %   Monte-Carlo property samplings, including Rhob, Vp and Vs, to model the
-%   AVO P-P reflectivities. The intercept and gradient of the reflectivity
-%   curve can later be used in facies classification.
+%   AVO P-P reflectivities. The modeling comes from the function "avopp".
+%   The intercept and gradient of the reflectivity curve can later be used in
+%   facies classification.
 %
 %   new_wells = PLOTAVO(...) outputs the "new_wells" cell containing the
 %   computed AVO reflectivities.
 %
-%   See also PLOTMC, PLOTROG.
+%   See also AVOPP, PLOTMC, PLOTROG.
 %
 %Written by Yunzhi Shi (Oct, 2017).
 
