@@ -92,4 +92,31 @@ figure(14);  % --> Time slice facies classification
 plotFacies(Seismic, allName);
 
 
+figure(15);
+Well2.Ip = Well2.Rhob .* Well2.Vp;
+Well2.VpVs = Well2.Vp ./ Well2.Vs;
+labels = {'GR API', 'Porosity', 'Density g/cc', 'V_P km/s', 'V_S km/s', 'I_P km/s*g/cc', 'V_P/V_S'};
+allProperties = {'GR','Por','Rhob','Vp','Vs','Ip','VpVs'};
+xmin = [40, 0.2, Rhobmin, Vpmin, Vsmin, Ipmin, VpVsmin];
+xmax = [140, 0.5, Rhobmax, Vpmax, Vsmax, Ipmax, VpVsmax];
+for prop = 1:length(labels)
+    subplot(1, length(labels), prop);
+    hold on;
+    h = plot(getfield(Well2, allProperties{prop}), ...
+         getfield(Well2, 'Depth'), ...
+         'k-', 'LineWidth',1);
+    h.Color = [.5,.5,.5];
+    for i = 1:length(brineFacies)
+        plot(getfield(brineFacies{i}, allProperties{prop}), ...
+             getfield(brineFacies{i}, 'Depth'), ...
+             'LineWidth', 2);
+    end
+    axis ij;
+    xlim([xmin(prop), xmax(prop)]);
+    ylim([2077, 2300]);
+    xlabel(labels{prop});
+    ylabel('Depth m')
+end
+legend({'Well log', brineName{:}});
+
 % save Mahal_Classification.mat
