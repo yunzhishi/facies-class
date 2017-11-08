@@ -1,12 +1,12 @@
-function new_wells = plotRoG(wells, well_names, ang, combine)
+function new_facies = plotRoG(facies, facies_names, ang, combine)
 %PLOTROG plots the Ro and G from AVO reflectivity samples.
 %
-%   PLOTROG(wells, well_names, ang, [combine]) uses the previously computed
+%   PLOTROG(facies, facies_names, ang, [combine]) uses the previously computed
 %   AVO reflectivity curves to estimate two AVO attributes: zero-offset
 %   R_pp (intercept) and gradient. These attributes can be used for facies
 %   classification later.
 %
-%   new_wells = PLOTROG(...) outputs the "new_wells" cell containing the
+%   new_facies = PLOTROG(...) outputs the "new_facies" cell containing the
 %   estimated Ro and G values.
 %
 %   See also PLOTMC, PLOTAVO.
@@ -16,34 +16,34 @@ function new_wells = plotRoG(wells, well_names, ang, combine)
 set(gcf, 'Position', [100,100,600,500]);
 xlabel_preset = {'Intercept'};
 ylabel_preset = {'Gradient'};
-wellNum = length(wells);
-plotRGB = jet(wellNum);  % RGB values
+faciesNum = length(facies);
+plotRGB = jet(faciesNum);  % RGB values
 
 % Set up forward modeling matrix -> A * [Ro,G]' = Rpp'
-forward_matrix = [ones(size(ang')), sin(ang').^2];
+%forward_matrix = [ones(size(ang')), sin(ang').^2];
 
-ndraws = length(wells{1}.sampVp);
-for i = 1:wellNum
+ndraws = length(facies{1}.sampVp);
+for i = 1:faciesNum
     if ~exist('combine', 'var')  % subplot all facies
-        subplot(floor(sqrt(wellNum)), ...
-                ceil(wellNum / floor(sqrt(wellNum))), ...
+        subplot(floor(sqrt(faciesNum)), ...
+                ceil(faciesNum / floor(sqrt(faciesNum))), ...
                 i);
     end
     
-    wells{i}.Ro = zeros(ndraws, 1);
-    wells{i}.G = zeros(ndraws, 1);
+    facies{i}.Ro = zeros(ndraws, 1);
+    facies{i}.G = zeros(ndraws, 1);
     for samp = 1:ndraws
-        x = forward_matrix \ wells{i}.AVORpp(samp,:)';
-        wells{i}.Ro(samp) = x(1);
-        wells{i}.G(samp) = x(2)*50;
+        x = polyfit(sin(ang'*pi/180.).^2, facies{i}.AVORpp(samp,:)', 1);
+        facies{i}.Ro(samp) = x(2);
+        facies{i}.G(samp) = x(1);
     end
     hold on;
-    h = scatter(wells{i}.Ro, wells{i}.G, 12, 'filled');
+    h = scatter(facies{i}.Ro, facies{i}.G, 12, 'filled');
     h.MarkerFaceColor = plotRGB(i,:);
     h.MarkerEdgeColor = 'none';
 
     % Compute average values and display
-    h = scatter(mean(wells{i}.Ro), mean(wells{i}.G), 15, 'filled');
+    h = scatter(mean(facies{i}.Ro), mean(facies{i}.G), 15, 'filled');
     h.MarkerFaceColor = 'k';
     h.MarkerEdgeColor = 'none';
 
@@ -53,10 +53,10 @@ for i = 1:wellNum
     ylabel(ylabel_preset{1});
     grid on;
     if ~exist('combine', 'var')
-        title(['Facies ', well_names{i}]);
+        title(['Facies ', facies_names{i}]);
     else
         title('All facies')
     end
 end
 
-new_wells = wells;
+new_facies = facies;

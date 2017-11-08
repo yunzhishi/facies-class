@@ -1,13 +1,13 @@
-function new_wells = plotMC(wells, ranges, type, well_names, draw, ndraws)
-%PLOTMC plots the Monte Carlo fitting/sampling of given well log data.
+function new_facies = plotMC(facies, ranges, type, facies_names, draw, ndraws)
+%PLOTMC plots the Monte Carlo fitting/sampling of given facies data.
 %
-%   PLOTMC(wells, ranges, type, well_names, [draw], [ndraws]) fits the
-%   given well log data to the multivariate Gaussian model and plot out the
+%   PLOTMC(facies, ranges, type, facies_names, [draw], [ndraws]) fits the
+%   given facies data to the multivariate Gaussian model and plot out the
 %   probability density function (PDF); or, when flag DRAW is set to be
 %   true, draws Monte-Carlo samplings according to the previously computed
 %   distribution.
 %
-%   new_wells = PLOTMC(...) outputs the "new_wells" cell containing the
+%   new_facies = PLOTMC(...) outputs the "new_facies" cell containing the
 %   distribution models.
 %
 %   See also PLOTAVO, PLOTROG.
@@ -19,31 +19,31 @@ sampling = 20;  % histogram sampling
 xlabel_preset = {'Vp km/s', 'Density g/cc'};
 ylabel_preset = {'Vs km/s', 'PDF'};
 fields = {{'Vp','Vs'}, 'Rhob'};
-wellNum = length(wells);
-plotRGB = jet(wellNum);  % RGB values
+faciesNum = length(facies);
+plotRGB = jet(faciesNum);  % RGB values
 
-for i = 1:wellNum
-    subplot(floor(sqrt(wellNum)), ...
-            ceil(wellNum / floor(sqrt(wellNum))), ...
+for i = 1:faciesNum
+    subplot(floor(sqrt(faciesNum)), ...
+            ceil(faciesNum / floor(sqrt(faciesNum))), ...
             i);
 
     if strcmp(type, 'VpVs')  % Vp, Vs bivariate distribution
         property = 1;
         if ~exist('draw', 'var')  % Compute distribution
             % Fit GMM
-            param1 = wells{i}.(fields{1}{1});
-            param2 = wells{i}.(fields{1}{2});
-            wells{i}.GMM = fitgmdist([param1, param2], 1);
+            param1 = facies{i}.(fields{1}{1});
+            param2 = facies{i}.(fields{1}{2});
+            facies{i}.GMM = fitgmdist([param1, param2], 1);
             hold on;
-            ezcontour(@(x,y)pdf(wells{i}.GMM, [x,y]));
+            ezcontour(@(x,y)pdf(facies{i}.GMM, [x,y]));
             legend OFF;
             title([]);
-            % Draw scatters from well data
+            % Draw scatters from facies data
             h = scatter(param1, param2, 12, 'filled');
         else  % Monte-Carlo sampling
-            samples = random(wells{i}.GMM, ndraws);
-            wells{i}.sampVp = samples(:,1);
-            wells{i}.sampVs = samples(:,2);
+            samples = random(facies{i}.GMM, ndraws);
+            facies{i}.sampVp = samples(:,1);
+            facies{i}.sampVs = samples(:,2);
             h = scatter(samples(:,1), samples(:,2), 12, 'filled');
         end
         h.MarkerFaceColor = plotRGB(i,:);
@@ -55,15 +55,15 @@ for i = 1:wellNum
         property = 2;
         if ~exist('draw', 'var')  % Compute distribution
             % Fit univariate Gaussian model
-            param = wells{i}.(fields{2});
-            wells{i}.UniGM = fitdist(param, 'Normal');
+            param = facies{i}.(fields{2});
+            facies{i}.UniGM = fitdist(param, 'Normal');
             % Draw fitting curves and histograms
             h = histfit(param, sampling);
             h(1).FaceColor = plotRGB(i,:);
             h(2).Color = 'k';
         else % Monte-Carlo sampling
-            samples = random(wells{i}.UniGM, ndraws);
-            wells{i}.sampRhob = samples(:);
+            samples = random(facies{i}.UniGM, ndraws);
+            facies{i}.sampRhob = samples(:);
             h = histogram(samples(:), sampling);
             h.Normalization = 'probability';
             h.FaceColor = plotRGB(i,:);
@@ -81,7 +81,7 @@ for i = 1:wellNum
         ylabel('Probability');
     end
     grid on;
-    title(['Facies ', well_names{i}]);
+    title(['Facies ', facies_names{i}]);
 end
 
-new_wells = wells;
+new_facies = facies;

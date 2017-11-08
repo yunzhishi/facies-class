@@ -1,7 +1,7 @@
-function plotFacies(data, well_names, type)
+function plotFacies(data, facies_names, type)
 %PLOTFACIES plots the facies classification results in time slice.
 %
-%   PLOTFACIES(data, well_names, [type]) visualizes the facies classification
+%   PLOTFACIES(data, facies_names, [type]) visualizes the facies classification
 %   from the function "classifyMahal". The individual and grouped facies are
 %   plotted out in a time slice.
 %   If input with argument 'input', then instead of classification results,
@@ -54,7 +54,7 @@ for i = 1:2
     if ~exist('type', 'var')  % plot likely facies
         if i == 1  % individual facies
             colormap(ax, gray);
-            c.TickLabels = well_names;
+            c.TickLabels = facies_names;
         elseif i == 2  % grouped facies
             mycmap = colormap(gray);
             for val = 1:64
